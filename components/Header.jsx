@@ -1,9 +1,11 @@
 import Link from 'next/link';
 import s from './Header.module.scss';
+import { motion } from 'framer-motion';
+import * as a from './Header.animations';
 
 export default function Header() {
   return (
-    <div className={s.header}>
+    <motion.div className={s.header} {...a.header}>
       <div className={s.headerInner}>
         <div className={s.logo}>Ollie</div>
         <nav className={s.nav}>
@@ -21,6 +23,6 @@ export default function Header() {
           <span />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

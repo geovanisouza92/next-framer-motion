@@ -1,5 +1,7 @@
 import cn from 'classnames';
-import { useEffect, useState } from "react";
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import * as a from './Banner.animations';
 import s from './Banner.module.scss';
 
 export default function Banner() {
@@ -12,11 +14,11 @@ export default function Banner() {
   }, []);
 
   return (
-    <div className={s.banner}>
+    <motion.div className={s.banner} {...a.banner}>
       <BannerRowTop title="brand" />
       <BannerRowCenter title="experience" playMarquee={playMarquee} />
       <BannerRowBottom title="studio" />
-    </div>
+    </motion.div>
   );
 }
 
@@ -26,11 +28,11 @@ function BannerRowTop({ title }) {
       <div className={s.rowCol}>
         <AnimatedLetters title={title} />
       </div>
-      <div className={s.rowCol}>
+      <motion.div className={s.rowCol} {...a.message}>
         <span className={s.rowMessage}>
           We are specialized in setting up the foundation of your brand and setting you up for success.
         </span>
-      </div>
+      </motion.div>
     </div>
   );
 }
@@ -38,36 +40,45 @@ function BannerRowTop({ title }) {
 function BannerRowCenter({ title, playMarquee }) {
   return (
     <div className={cn(s.bannerRow, s.marquee, { [s.animate]: playMarquee })}>
-      <div className={s.marqueeInner}>
+      <motion.div className={s.marqueeInner} {...a.title}>
         <AnimatedLetters title={title} disabled />
         <AnimatedLetters title={title} />
         <AnimatedLetters title={title} disabled />
         <AnimatedLetters title={title} disabled />
-      </div>
+      </motion.div>
     </div>
   );
 }
 
-function BannerRowBottom({ title, disabled }) {
+function BannerRowBottom({ title }) {
   return (
     <div className={cn(s.bannerRow, s.center)}>
-      <div className={s.scroll}>
-        <span>scroll</span>
-        <span>down</span>
-      </div>
+      <motion.div className={s.scroll} {...a.scroll}>
+        <motion.span {...a.scrollInner}>scroll</motion.span>
+        <motion.span {...a.scrollInner}>down</motion.span>
+      </motion.div>
       <AnimatedLetters title={title} />
     </div>
   );
 }
 
-function AnimatedLetters({ title }) {
+function AnimatedLetters({ title, disabled }) {
   return (
-    <span className={s.rowTitle}>
+    <motion.span
+      className={s.rowTitle}
+      initial='initial'
+      animate='animate'
+      {...(!disabled && a.banner)}
+    >
       {[...title].map((letter, index) => (
-        <span className={s.rowLetter} key={index}>
+        <motion.span
+          key={index}
+          className={s.rowLetter}
+          {...(!disabled && a.letters)}
+        >
           {letter}
-        </span>
+        </motion.span>
       ))}
-    </span>
+    </motion.span>
   );
 }
